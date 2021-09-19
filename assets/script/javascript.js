@@ -90,7 +90,7 @@ function check(event) {
             createDiv.textContent = "Correct!"
         } else {
             currentTime = currentTime - deduction;
-            createDiv.textContent = "INCCORRECT!"
+            createDiv.textContent = "Wrong!"
         }
 
     }
@@ -172,6 +172,7 @@ function finishQuiz() {
             totalScores.push(finalScore);
             var newScore = JSON.stringify(totalScores);
             localStorage.setItem("totalScores", newScore);
+            window.location.replace("highscores.html");
         }
     });
 
