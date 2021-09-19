@@ -1,177 +1,178 @@
-(function(){
-    // Functions
-    function buildQuiz(){
-      // variable to store the HTML output
-      const output = [];
-  
-      // for each question...
-      myQuestions.forEach(
-        (currentQuestion, questionNumber) => {
-  
-          // variable to store the list of possible answers
-          const answers = [];
-  
-          // and for each available answer...
-          for(letter in currentQuestion.answers){
-  
-            // ...add an HTML radio button
-            answers.push(
-              `<label>
-                <input type="radio" name="question${questionNumber}" value="${letter}">
-                ${letter} :
-                ${currentQuestion.answers[letter]}
-              </label>`
-            );
-          }
-  
-          // add this question and its answers to the output
-          output.push(
-            `<div class="slide">
-              <div class="question"> ${currentQuestion.question} </div>
-              <div class="answers"> ${answers.join("")} </div>
-            </div>`
-          );
+var timeLeft = document.querySelector("#timeLeft");
+var timer = document.querySelector("#startTime");
+var questionsDiv = document.querySelector("#questionsDiv");
+var wrapper = document.querySelector("#wrapper");
+var score = 0;
+var questionsIndex = 0;
+
+var currentTime = 76;
+var holdInterval = 0;
+var deduction = 10;
+
+var createUl = document.createElement("ul");
+
+
+var questions = [
+    {
+        title: "Commonly used data types DO NOT inculde:",
+        choices: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
+        answer: "3. alerts"
+    },
+    {
+        title: "The condintion in an if/else statement is enclosed with ___________.",
+        choices: ["1. quotes", "2. curly brackets", "3. parenthesis", "4. square brackets"],
+        answer: "3. parenthesis"
+    },
+    {
+        title: "Arrays in JavaScript can be used to store ____________.",
+        choices: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. all of the above"],
+        answer: "4. all of the above"
+    },
+    {
+        title: "String values must be enclosed within __________ when being assigned to variables.",
+        choices: ["1. commas", "2. curly brackets", "3. quotes", "4. parenthesis"],
+        answer: "3. quotes"
+    },
+    {
+        title: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        choices: ["1. JavaScript", "2. terminal/bash", "3. for loops", "4. console.log"],
+        answer: "4. console.log"
+    },
+
+
+];
+
+
+timer.addEventListener("click", function () {
+    if (holdInterval === 0) {
+        holdInterval = setInterval(function () {
+            currentTime--;
+            timeLeft.textContent = currentTime;
+
+            if (currentTime <= 0) {
+                clearInterval(holdInterval);
+                finishQuiz();
+                timeLeft.textContent = "You ran out of time!";
+            }
+        }, 1000);
+    }
+    wrapper.style.display = "none"; 
+    render(questionsIndex);
+});
+
+
+function render(questionsIndex) {
+    questionsDiv.innerHTML = "";
+    createUl.innerHTML = "";
+    for (var i = 0; i < questions.length; i++) {
+    
+        var usersQuestions = questions[questionsIndex].title;
+        var usersChoices = questions[questionsIndex].choices;
+        questionsDiv.textContent = usersQuestions;
+    }
+    usersChoices.forEach(function (newItem) {
+        var liItem = document.createElement("li");
+        liItem.textContent = newItem;
+        questionsDiv.appendChild(createUl);
+        createUl.appendChild(liItem);
+        liItem.addEventListener("click", (check));
+    })
+}
+function check(event) {
+    var element = event.target;
+
+    if (element.matches("li")) {
+
+        var createDiv = document.createElement("div");
+        createDiv.setAttribute("id", "createDiv");
+        if (element.textContent == questions[questionsIndex].answer) {
+            score++;
+            createDiv.textContent = "Correct!"
+        } else {
+            currentTime = currentTime - deduction;
+            createDiv.textContent = "INCCORRECT!"
         }
-      );
-  
-      // finally combine our output list into one string of HTML and put it on the page
-      quizContainer.innerHTML = output.join('');
+
     }
-  
-    function showResults(){
-  
-      // gather answer containers from our quiz
-      const answerContainers = quizContainer.querySelectorAll('.answers');
-  
-      // keep track of user's answers
-      let numCorrect = 0;
-  
-      // for each question...
-      myQuestions.forEach( (currentQuestion, questionNumber) => {
-  
-        // find selected answer
-        const answerContainer = answerContainers[questionNumber];
-        const selector = `input[name=question${questionNumber}]:checked`;
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-  
-        // if answer is correct
-        if(userAnswer === currentQuestion.correctAnswer){
-          // add to the number of correct answers
-          numCorrect++;
-  
-          // color the answers green
-          answerContainers[questionNumber].style.color = 'lightgreen';
+
+    questionsIndex++;
+
+    if (questionsIndex >= questions.length) {
+        finishQuiz();
+        createDiv.textContent = "You got " + score + " questions right!";
+    } else {
+        render(questionsIndex);
+    }
+    questionsDiv.appendChild(createDiv);
+
+}
+// finishQuiz will be used to appened any lost children.
+function finishQuiz() {
+    questionsDiv.innerHTML = "";
+    timeLeft.innerHTML = "";
+
+    var finishedH1 = document.createElement("h1");
+    finishedH1.setAttribute("id", "finishedH1");
+    finishedH1.textContent = "You finished the quiz!"
+
+    questionsDiv.appendChild(finishedH1);
+
+    var createP = document.createElement("p");
+    createP.setAttribute("id", "createP");
+
+    questionsDiv.appendChild(createP);
+
+    if (currentTime >= 0) {
+        var timeRemaining = currentTime;
+        var createP2 = document.createElement("p");
+        clearInterval(holdInterval);
+        createP.textContent = "Your Final Score Is: " + timeRemaining;
+
+        questionsDiv.appendChild(createP2);
+    }
+
+    var createLabel = document.createElement("label");
+    createLabel.setAttribute("id", "createLabel");
+    createLabel.textContent = "Please enter your name: ";
+
+    questionsDiv.appendChild(createLabel);
+
+    var addInput = document.createElement("input");
+    addInput.setAttribute("type", "text");
+    addInput.setAttribute("id", "name");
+    addInput.textContent = "";
+
+    questionsDiv.appendChild(addInput);
+
+    var subInput = document.createElement("button");
+    subInput.setAttribute("type", "submit");
+    subInput.setAttribute("id", "Submit");
+    subInput.textContent = "Submit";
+
+    questionsDiv.appendChild(subInput);
+
+
+    subInput.addEventListener("click", function () {
+        var name = addInput.value;
+
+        if (name === null) {
+
+
+        } else {
+            var finalScore = {
+                name: name,
+                score: timeRemaining
+            }
+            var totalScores = localStorage.getItem("totalScores");
+            if (totalScores === null) {
+                totalScores = [];
+            } else {
+                totalScores = JSON.parse(totalScores);
+            }
+            totalScores.push(finalScore);
+            var newScore = JSON.stringify(totalScores);
+            localStorage.setItem("totalScores", newScore);
         }
-        // if answer is wrong or blank
-        else{
-          // color the answers red
-          answerContainers[questionNumber].style.color = 'red';
-        }
-      });
-  
-      // show number of correct answers out of total
-      resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
-    }
-  
-    function showSlide(n) {
-      slides[currentSlide].classList.remove('active-slide');
-      slides[n].classList.add('active-slide');
-      currentSlide = n;
-      if(currentSlide === 0){
-        previousButton.style.display = 'none';
-      }
-      else{
-        previousButton.style.display = 'inline-block';
-      }
-      if(currentSlide === slides.length-1){
-        nextButton.style.display = 'none';
-        submitButton.style.display = 'inline-block';
-      }
-      else{
-        nextButton.style.display = 'inline-block';
-        submitButton.style.display = 'none';
-      }
-    }
-  
-    function showNextSlide() {
-      showSlide(currentSlide + 1);
-    }
-  
-    function showPreviousSlide() {
-      showSlide(currentSlide - 1);
-    }
-  
-    // Variables
-    const quizContainer = document.getElementById('quiz');
-    const resultsContainer = document.getElementById('results');
-    const submitButton = document.getElementById('submit');
-    const myQuestions = [
-      {
-        question: "Commonly used data types DO NOT inculde:",
-        answers: {
-          a: "strings",
-          b: "booleans",
-          c: "alerts",
-          d: "numbers",
-        },
-        correctAnswer: "c"
-        },
-        {
-        question: "The condintion in an if/else statement is enclosed with ___________.",
-        answers: {
-          a: "quotes",
-          b: "curly brackets",
-          c: "parenthesis",
-          d: "square brackets",
-        },
-        correctAnswer: "c"
-        },
-        {
-        question: "Arrays in JavaScript can be used to store ____________.",
-        answers: {
-          a: "numbers and strings",
-          b: "other arrays",
-          c: "booleans",
-          d: "all of the above",
-        },
-        correctAnswer: "d"
-        },
-        {
-          question: "String values must be enclosed within __________ when being assigned to variables.",
-          answers: {
-              a: "commas",
-              b: "curly brackets",
-              c: "quotes",
-              d: "parenthesis",
-          },
-          correctAnswer: "c"
-        },
-        {
-          question: "A very useful tool used during development and debugging for printing content to the debugger is:",
-          answers: {
-              a: "JavaScript",
-              b: "terminal/bash",
-              c: "for loops",
-              d: "console.log",
-          },
-          correctAnswer: "d"
-        },
-        ];
-    // Kick things off
-    buildQuiz();
-  
-    // Pagination
-    const previousButton = document.getElementById("previous");
-    const nextButton = document.getElementById("next");
-    const slides = document.querySelectorAll(".slide");
-    let currentSlide = 0;
-  
-    // Show the first slide
-    showSlide(currentSlide);
-  
-    // Event listeners
-    submitButton.addEventListener('click', showResults);
-    previousButton.addEventListener("click", showPreviousSlide);
-    nextButton.addEventListener("click", showNextSlide);
-  })();
-  
+    });
+
+}

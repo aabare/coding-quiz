@@ -10,18 +10,74 @@
 </head>
 
 <body>
-    <h1 class="page-title">Coding Quiz Challenge</h1>
-    <p>Try to answer the following code-related questions within the time limit.
-        Keep in mind that incorrect answers will penalize your score/time by ten seconds!
-    </p>
-    <div class="quiz-container">
-      <div id="quiz"></div>
+    <div class="highScore"></a><button id="highScore">View Highscores</button></a></div>
+
+    <div class="timer">You Have: <span id="timeLeft">0</span> Seconds Left</div>
+
+    <div id="wrapper">
+        <div class="start">
+            <h1>Coding Quiz</h1>
+            <p>
+               Try to answer the following code-related questions within the time limit.
+               Keep in mind that incorrect answers will penalize your score/time by 10 seconds!
+            </p>
+            <ul id="choicesUl"></ul>
+            <button id="startTime">Start Quiz</button>
+        </div>
     </div>
-    <button id="previous">Previous Question</button>
-    <button id="next">Next Question</button>
-    <button id="submit">Submit Quiz</button>
-    <div id="results"></div>
+
+    <div id="questionsDiv"></div>
     <script src="assets/script/javascript.js"></script>
 </body>
 </html> 
-
+<!--
+question: "Commonly used data types DO NOT inculde:",
+answers: {
+  a: "strings",
+  b: "booleans",
+  c: "alerts",
+  d: "numbers",
+},
+correctAnswer: "c"
+},
+{
+question: "The condintion in an if/else statement is enclosed with ___________.",
+answers: {
+  a: "quotes",
+  b: "curly brackets",
+  c: "parenthesis",
+  d: "square brackets",
+},
+correctAnswer: "c"
+},
+{
+question: "Arrays in JavaScript can be used to store ____________.",
+answers: {
+  a: "numbers and strings",
+  b: "other arrays",
+  c: "booleans",
+  d: "all of the above",
+},
+correctAnswer: "d"
+},
+{
+  question: "String values must be enclosed within __________ when being assigned to variables.",
+  answers: {
+      a: "commas",
+      b: "curly brackets",
+      c: "quotes",
+      d: "parenthesis",
+  },
+  correctAnswer: "c"
+},
+{
+  question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+  answers: {
+      a: "JavaScript",
+      b: "terminal/bash",
+      c: "for loops",
+      d: "console.log",
+  },
+  correctAnswer: "d"
+},
+];
