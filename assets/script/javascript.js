@@ -106,7 +106,7 @@ function check(event) {
     questionsDiv.appendChild(createDiv);
 
 }
-// finishQuiz will be used to appened any lost children.
+
 function finishQuiz() {
     questionsDiv.innerHTML = "";
     timeLeft.innerHTML = "";

@@ -15,7 +15,7 @@ if (totalScores !== null) {
 
         var createLi = document.createElement("li");
         createLi.textContent = totalScores[i].name + " " + totalScores[i].score;
-        highScore.appendChild(createLi);
+        topScores.appendChild(createLi);
 
     }
 }

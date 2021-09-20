@@ -41,6 +41,9 @@ h1 {
     border: 0;
  
 }
+button:hover {
+    opacity: 0.5;
+}
 #highScore {
     display: inline-block;
     margin: 5px;
@@ -115,8 +118,11 @@ input {
     width: 40%;
     border: 1px solid lightgray;
 }
-
-
+#topScores li {
+    cursor: auto;
+    background-color: gray;
+    list-style: none;
+}
 
 li {
     list-style: none;
